@@ -1,0 +1,49 @@
+# Please see https://github.com/DavidAnson/markdownlint-cli2#configuration
+# for all configuration options
+config:
+  # Please see https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+  # for more information on markdownlint rules.
+
+  # MD001/heading-increment/header-increment
+  # Heading levels should only increment by one level at a time
+  heading-increment: false
+  # MD004/ul-style - Unordered list style
+  ul-style : false
+  # MD009/no-trailing-spaces - Trailing spaces
+  no-trailing-spaces : false
+  # MD013/line-length - Line length
+  line-length: false
+  # MD022/blanks-around-headings/blanks-around-headers
+  # Headings should be surrounded by blank lines
+  blanks-around-headings: false
+  # MD024/no-duplicate-heading/no-duplicate-header
+  # Multiple headings with the same content
+  no-duplicate-heading: false
+  # MD025/single-title/single-h1
+  # Multiple top level headings in the same document
+  single-title: false
+  # MD026/no-trailing-punctuation
+  # Trailing punctuation in heading
+  no-trailing-punctuation: false
+  # MD029/ol-prefix - Ordered list item prefix
+  ol-prefix: false
+  # MD033/no-inline-html - Inline HTML
+  no-inline-html: false
+  # MD034/no-bare-urls - Bare URL used
+  no-bare-urls: false
+  # MD036/no-emphasis-as-heading/no-emphasis-as-header
+  # Emphasis used instead of a heading
+  no-emphasis-as-heading: false
+  # MD040/fenced-code-language
+  # Fenced code blocks should have a language specified
+  fenced-code-language: false
+  # MD041/first-line-heading/first-line-h1
+  # First line in file should be a top level heading
+  first-line-heading: false
+  # MD042/no-empty-links - No empty links
+  no-empty-links: false
+  # MD045/no-alt-text - Images should have alternate text (alt text)
+  no-alt-text: false
+  # MD046/code-block-style - Code block style
+  code-block-style: false
+

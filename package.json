@@ -20,7 +20,9 @@
     "test:ci": "npm run lint && npm run unit -- --cov --coverage-report=lcovonly && npm run test:typescript",
     "bench": "branchcmp -r 2 -g -s \"npm run benchmark\"",
     "benchmark": "npx concurrently -k -s first \"node ./examples/simple.js\" \"npx autocannon -c 100 -d 5 -p 10 localhost:3000/\"",
-    "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\""
+    "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\"",
+    "markdownlint": "markdownlint-cli2 README.md",
+    "markdownlint:fix": "markdownlint-cli2-fix README.md"
   },
   "repository": {
     "type": "git",
@@ -120,8 +122,8 @@
   "devDependencies": {
     "@hapi/joi": "^17.1.1",
     "@sinonjs/fake-timers": "^7.0.0",
-    "@types/pino": "^6.0.1",
     "@types/node": "^14.10.3",
+    "@types/pino": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "JSONStream": "^1.3.5",
@@ -154,6 +156,7 @@
     "http-errors": "^1.7.1",
     "ienoopen": "^1.1.0",
     "license-checker": "^25.0.1",
+    "markdownlint-cli2": "^0.0.13",
     "pre-commit": "^1.2.2",
     "proxyquire": "^2.1.3",
     "pump": "^3.0.0",

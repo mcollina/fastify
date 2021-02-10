@@ -70,16 +70,18 @@ npm start
 Under the hood `npm init` downloads and runs [Fastify Create](https://github.com/fastify/create-fastify),
 which in turn uses the generate functionality of [Fastify CLI](https://github.com/fastify/fastify-cli).
 
-
 ### Install
 
 If installing in an existing project, then Fastify can be installed into the project as a dependency:
 
 Install with npm:
+
 ```sh
 npm i fastify --save
 ```
+
 Install with yarn:
+
 ```sh
 yarn add fastify
 ```
@@ -124,7 +126,6 @@ fastify.listen(3000, (err, address) => {
 
 Do you want to know more? Head to the <a href="./docs/Getting-Started.md"><code><b>Getting Started</b></code></a>.
 
-
 ### Fastify v1.x and v2.x
 
 Code for Fastify's **v1.x** is in [**`branch 1.x`**](https://github.com/fastify/fastify/tree/1.x), so all Fastify 1.x related changes should be based on **`branch 1.x`**.
@@ -156,7 +157,7 @@ __Method:__: `autocannon -c 100 -d 40 -p 10 localhost:3000` * 2, taking the seco
 | Koa                | 2.13.0                     | &#10007;     | 54,848        |
 | **Fastify**        | **3.0.0**                  | **&#10003;** | **78,956**    |
 | -                  |                            |              |               |
-| `http.Server`      | 12.18.2	                  | &#10007;     | 70,380        |
+| `http.Server`      | 12.18.2                   | &#10007;     | 70,380        |
 
 Benchmarks taken using https://github.com/fastify/benchmarks. This is a
 synthetic, "hello world" benchmark that aims to evaluate the framework
@@ -165,6 +166,7 @@ depends on your application, you should __always__ benchmark if performance
 matters to you.
 
 ## Documentation
+
 * <a href="./docs/Getting-Started.md"><code><b>Getting Started</b></code></a>
 * <a href="./docs/Server.md"><code><b>Server</b></code></a>
 * <a href="./docs/Routes.md"><code><b>Routes</b></code></a>
@@ -210,10 +212,12 @@ _Fastify_ is the result of the work of a great community.
 Team members are listed in alphabetical order.
 
 **Lead Maintainers:**
+
 * [__Matteo Collina__](https://github.com/mcollina), <https://twitter.com/matteocollina>, <https://www.npmjs.com/~matteo.collina>
 * [__Tomas Della Vedova__](https://github.com/delvedor), <https://twitter.com/delvedor>, <https://www.npmjs.com/~delvedor>
 
 ### Fastify Core team
+
 * [__Tommaso Allevi__](https://github.com/allevo), <https://twitter.com/allevitommaso>, <https://www.npmjs.com/~allevo>
 * [__Ethan Arrowood__](https://github.com/Ethan-Arrowood/), <https://twitter.com/arrowoodtech>, <https://www.npmjs.com/~ethan_arrowood>
 * [__Harry Brundage__](https://github.com/airhorns/), <https://twitter.com/harrybrundage>, <https://www.npmjs.com/~airhorns>
@@ -231,6 +235,7 @@ Team members are listed in alphabetical order.
 * [__James Sumners__](https://github.com/jsumners), <https://twitter.com/jsumners79>, <https://www.npmjs.com/~jsumners>
 
 ### Fastify Plugins team
+
 * [__Matteo Collina__](https://github.com/mcollina), <https://twitter.com/matteocollina>, <https://www.npmjs.com/~matteo.collina>
 * [__Harry Brundage__](https://github.com/airhorns/), <https://twitter.com/harrybrundage>, <https://www.npmjs.com/~airhorns>
 * [__Tomas Della Vedova__](https://github.com/delvedor), <https://twitter.com/delvedor>, <https://www.npmjs.com/~delvedor>
@@ -248,6 +253,7 @@ Great contributors on a specific area in the Fastify ecosystem will be invited t
 * [__Evan Shortiss__](https://github.com/evanshortiss), <https://twitter.com/evanshortiss>, <https://www.npmjs.com/~evanshortiss>
 
 **Past Collaborators**
+
 * [__Çağatay Çalı__](https://github.com/cagataycali), <https://twitter.com/cagataycali>, <https://www.npmjs.com/~cagataycali>
 * [__Trivikram Kamat__](https://github.com/trivikr), <https://twitter.com/trivikram>, <https://www.npmjs.com/~trivikr>
 * [__Cemre Mengu__](https://github.com/cemremengu), <https://twitter.com/cemremengu>, <https://www.npmjs.com/~cemremengu>
@@ -262,9 +268,11 @@ We are a [Growth Project](https://github.com/openjs-foundation/cross-project-cou
 ## Acknowledgements
 
 This project is kindly sponsored by:
+
 - [nearForm](https://nearform.com)
 
 Past Sponsors:
+
 - [LetzDoIt](http://www.letzdoitapp.com/)
 
 ## License
@@ -272,6 +280,7 @@ Past Sponsors:
 Licensed under [MIT](./LICENSE).
 
 For your convenience, here is a list of all the licenses of our production dependencies:
+
 - MIT
 - ISC
 - BSD-3-Clause
