@@ -35,7 +35,7 @@ expectAssignable<FastifyInstance>(server.get(
   () => { }
 ))
 
-expectAssignable<FastifyInstance>(server.get<RouteGenericInterface, ContextConfigDefault, { validate:(data: any) => any }>(
+expectAssignable<FastifyInstance>(server.get<RouteGenericInterface, ContextConfigDefault, { validate: (data: any) => any }>(
   '/no-schema',
 {
   schema: {},
@@ -48,7 +48,7 @@ expectAssignable<FastifyInstance>(server.get<RouteGenericInterface, ContextConfi
 ))
 
 expectAssignable<FastifyInstance>(
-  server.route<RouteGenericInterface, ContextConfigDefault, { validate:(data: any) => any }>(
+  server.route<RouteGenericInterface, ContextConfigDefault, { validate: (data: any) => any }>(
     {
       schema: {},
       validatorCompiler: ({ schema }) => {
@@ -73,7 +73,7 @@ expectAssignable<FastifyInstance>(server.setSerializerCompiler(() => {
 expectAssignable<FastifyInstance>(server.post('/test', {
   validatorCompiler: ({ schema }) => {
     return data => {
-      if (!data || data.constructor !== Object) {
+      if (data === undefined || data.constructor !== Object) {
         return { error: new Error('value is not an object') }
       }
       return { value: data }

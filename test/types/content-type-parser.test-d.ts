@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import fastify from '../../fastify'
 import { expectType } from 'tsd'
 import { IncomingMessage } from 'http'

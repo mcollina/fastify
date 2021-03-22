@@ -13,7 +13,7 @@
     "lint": "npm run lint:standard && npm run lint:typescript",
     "lint:fix": "standard --fix",
     "lint:standard": "standard --verbose | snazzy",
-    "lint:typescript": "eslint -c types/.eslintrc.json types/**/*.d.ts test/types/**/*.test-d.ts",
+    "lint:typescript": "ts-standard | snazzy",
     "test": "npm run lint && npm run unit && npm run test:typescript",
     "test:ci": "npm run lint && npm run unit -- --cov --coverage-report=lcovonly && npm run test:typescript",
     "test:report": "npm run lint && npm run unit:report && npm run test:typescript",
@@ -166,6 +166,7 @@
     "tap": "^14.4.1",
     "tap-mocha-reporter": "^5.0.0",
     "then-sleep": "^1.0.1",
+    "ts-standard": "^10.0.0",
     "tsd": "^0.14.0",
     "typescript": "^4.0.2",
     "undici": "^3.0.0",
@@ -194,6 +195,13 @@
     "ignore": [
       "lib/configValidator.js",
       "fastify.d.ts",
+      "types/*",
+      "test/types/*"
+    ]
+  },
+  "ts-standard": {
+    "project": "tsconfig.eslint.json",
+    "files": [
       "types/*",
       "test/types/*"
     ]

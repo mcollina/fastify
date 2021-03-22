@@ -1,40 +1,40 @@
 import { expectType } from 'tsd'
 import fastify, { RouteHandler, RawRequestDefaultExpression, RequestBodyDefault, RequestGenericInterface } from '../../fastify'
-import { RawServerDefault, RequestParamsDefault, RequestHeadersDefault, RequestQuerystringDefault, RawReplyDefaultExpression } from '../../types/utils'
+import { RequestParamsDefault, RequestHeadersDefault, RequestQuerystringDefault } from '../../types/utils'
 import { FastifyLoggerInstance } from '../../types/logger'
 import { FastifyRequest } from '../../types/request'
 import { FastifyReply } from '../../types/reply'
 
 interface RequestBody {
-  content: string;
+  content: string
 }
 
 interface RequestQuerystring {
-  from: string;
+  from: string
 }
 
 interface RequestParams {
-  id: number;
+  id: number
 }
 
 interface RequestHeaders {
-  'x-foobar': string;
+  'x-foobar': string
 }
 
 interface RequestData extends RequestGenericInterface {
-  Body: RequestBody;
-  Querystring: RequestQuerystring;
-  Params: RequestParams;
-  Headers: RequestHeaders;
+  Body: RequestBody
+  Querystring: RequestQuerystring
+  Params: RequestParams
+  Headers: RequestHeaders
 }
 
 type Handler = RouteHandler<RequestData>
 
 type CustomRequest = FastifyRequest<{
-  Body: RequestBody;
-  Querystring: RequestQuerystring;
-  Params: RequestParams;
-  Headers: RequestHeaders;
+  Body: RequestBody
+  Querystring: RequestQuerystring
+  Params: RequestParams
+  Headers: RequestHeaders
 }>
 
 const getHandler: RouteHandler = function (request, _reply) {
@@ -54,7 +54,7 @@ const getHandler: RouteHandler = function (request, _reply) {
   expectType<any>(request.id)
   expectType<FastifyLoggerInstance>(request.log)
   expectType<RawRequestDefaultExpression['socket']>(request.socket)
-  expectType<Error & { validation: any; validationContext: string } | undefined>(request.validationError)
+  expectType<Error & { validation: any, validationContext: string } | undefined>(request.validationError)
 }
 
 const postHandler: Handler = function (request) {
@@ -68,7 +68,7 @@ const postHandler: Handler = function (request) {
   expectType<string>(request.headers['x-foobar'])
 }
 
-function putHandler (request: CustomRequest, reply: FastifyReply) {
+function putHandler (request: CustomRequest, reply: FastifyReply): void {
   expectType<RequestBody>(request.body)
   expectType<RequestParams>(request.params)
   expectType<RequestHeaders & RawRequestDefaultExpression['headers']>(request.headers)

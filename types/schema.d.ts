@@ -5,29 +5,29 @@
  * out here:
  */
 export interface FastifySchema {
-  body?: unknown;
-  querystring?: unknown;
-  params?: unknown;
-  headers?: unknown;
-  response?: unknown;
+  body?: unknown
+  querystring?: unknown
+  params?: unknown
+  headers?: unknown
+  response?: unknown
 }
 
 export interface FastifyRouteSchemaDef<T> {
-  schema: T;
-  method: string;
-  url: string;
-  httpPart?: string;
-  httpStatus?: string;
+  schema: T
+  method: string
+  url: string
+  httpPart?: string
+  httpStatus?: string
 }
 
 export interface FastifySchemaValidationError {
-  message?: string;
-  dataPath: string;
+  message?: string
+  dataPath: string
 }
 
 export interface FastifyValidationResult {
   (data: any): boolean | PromiseLike<any> | { error?: Error, value?: any }
-  errors?: FastifySchemaValidationError[] | null;
+  errors?: FastifySchemaValidationError[] | null
 }
 
 /**

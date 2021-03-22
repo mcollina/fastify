@@ -35,19 +35,19 @@ export interface AddContentTypeParser<
   (
     contentType: string | string[] | RegExp,
     opts: {
-      bodyLimit?: number;
+      bodyLimit?: number
     },
     parser: FastifyContentTypeParser<RawServer, RawRequest>
-  ): void;
-  (contentType: string | string[] | RegExp, parser: FastifyContentTypeParser<RawServer, RawRequest>): void;
+  ): void
+  (contentType: string | string[] | RegExp, parser: FastifyContentTypeParser<RawServer, RawRequest>): void
   <parseAs extends string | Buffer>(
     contentType: string | string[] | RegExp,
     opts: {
-      parseAs: parseAs extends Buffer ? 'buffer' : 'string';
-      bodyLimit?: number;
+      parseAs: parseAs extends Buffer ? 'buffer' : 'string'
+      bodyLimit?: number
     },
     parser: FastifyBodyParser<parseAs, RawServer, RawRequest>
-  ): void;
+  ): void
 }
 
 /**

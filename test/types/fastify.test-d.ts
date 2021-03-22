@@ -136,12 +136,16 @@ expectAssignable<FastifyInstance>(fastify({
 }))
 expectAssignable<FastifyInstance>(fastify({ frameworkErrors: () => { } }))
 expectAssignable<FastifyInstance>(fastify({
-  rewriteUrl: (req) => req.url === '/hi' ? '/hello' : req.url!
+  rewriteUrl: (req) => {
+    if (req.url === undefined) return '/404'
+    return req.url === '/hi' ? '/hello' : req.url
+  }
 }))
 expectAssignable<FastifyInstance>(fastify({ schemaErrorFormatter: (errors, dataVar) => new Error() }))
 
 // Thenable
 expectAssignable<PromiseLike<FastifyInstance>>(fastify({ return503OnClosing: true }))
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 fastify().then(fastifyInstance => expectAssignable<FastifyInstance>(fastifyInstance))
 
 expectAssignable<FastifyPluginAsync>(async () => {})

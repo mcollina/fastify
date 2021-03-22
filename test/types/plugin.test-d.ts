@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import fastify, { FastifyInstance, FastifyPluginOptions } from '../../fastify'
 import * as http from 'http'
 import * as https from 'https'
@@ -7,8 +8,8 @@ import { FastifyError } from 'fastify-error'
 
 // FastifyPlugin & FastifyRegister
 interface TestOptions extends FastifyPluginOptions {
-  option1: string;
-  option2: boolean;
+  option1: string
+  option2: boolean
 }
 const testPluginOpts: FastifyPluginCallback<TestOptions> = function (instance, opts, done) { }
 const testPluginOptsAsync: FastifyPluginAsync<TestOptions> = async function (instance, opts) { }
@@ -35,7 +36,7 @@ expectAssignable<FastifyInstance>(fastify().register(testPluginCallback, {}))
 const testPluginAsync: FastifyPluginAsync = async function (instance, opts) { }
 expectAssignable<FastifyInstance>(fastify().register(testPluginAsync, {}))
 
-expectAssignable<FastifyInstance>(fastify().register(function (instance, opts): Promise<void> { return Promise.resolve() }))
+expectAssignable<FastifyInstance>(fastify().register(async function (instance, opts): Promise<void> { return await Promise.resolve() }))
 expectAssignable<FastifyInstance>(fastify().register(async function (instance, opts) { }, () => { }))
 expectAssignable<FastifyInstance>(fastify().register(async function (instance, opts) { }, { logLevel: 'info', prefix: 'foobar' }))
 
@@ -61,8 +62,8 @@ expectAssignable<PromiseLike<undefined>>(httpsServer.register(testPluginOptsWith
 expectAssignable<PromiseLike<undefined>>(httpsServer.register(testPluginOptsWithType, { prefix: '/test' }))
 expectAssignable<PromiseLike<undefined>>(httpsServer.register(testPluginOptsWithTypeAsync, { prefix: '/test' }))
 
-async function testAsync (): Promise<void> {
-  await httpsServer
-    .register(testPluginOpts)
-    .register(testPluginOpts)
-}
+// async function testAsync (): Promise<void> {
+//   await httpsServer
+//     .register(testPluginOpts)
+//     .register(testPluginOpts)
+// }

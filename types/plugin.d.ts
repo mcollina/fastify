@@ -22,7 +22,7 @@ export type FastifyPluginCallback<Options extends FastifyPluginOptions = Record<
 export type FastifyPluginAsync<Options extends FastifyPluginOptions = Record<never, never>, Server extends RawServerBase = RawServerDefault> = (
   instance: FastifyInstance<Server, RawRequestDefaultExpression<Server>, RawReplyDefaultExpression<Server>>,
   opts: Options
-) => Promise<void>;
+) => Promise<void>
 
 /**
  * Generic plugin type.

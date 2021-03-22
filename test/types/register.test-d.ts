@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { expectAssignable, expectError } from 'tsd'
 import fastify, { FastifyInstance, FastifyPluginAsync } from '../../fastify'
 

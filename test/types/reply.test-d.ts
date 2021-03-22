@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { expectType, expectError } from 'tsd'
 import fastify, { RouteHandlerMethod, RouteHandler, RawRequestDefaultExpression, FastifyContext, FastifyRequest, FastifyReply } from '../../fastify'
-import { RawServerDefault, RawReplyDefaultExpression, ContextConfigDefault, RawServerBase } from '../../types/utils'
+import { RawServerDefault, RawReplyDefaultExpression, ContextConfigDefault } from '../../types/utils'
 import { FastifyLoggerInstance } from '../../types/logger'
 import { RouteGenericInterface } from '../../types/route'
 
@@ -20,7 +21,7 @@ const getHandler: RouteHandlerMethod = function (_request, reply) {
   expectType<() => { [key: string]: number | string | string[] | undefined }>(reply.getHeaders)
   expectType<(key: string) => void>(reply.removeHeader)
   expectType<(key: string) => boolean>(reply.hasHeader)
-  expectType<{(statusCode: number, url: string): FastifyReply; (url: string): FastifyReply }>(reply.redirect)
+  expectType<{(statusCode: number, url: string): FastifyReply, (url: string): FastifyReply }>(reply.redirect)
   expectType<() => FastifyReply>(reply.hijack)
   expectType<() => void>(reply.callNotFound)
   expectType<() => number>(reply.getResponseTime)
@@ -32,8 +33,8 @@ const getHandler: RouteHandlerMethod = function (_request, reply) {
 
 interface ReplyPayload {
   Reply: {
-    test: boolean;
-  };
+    test: boolean
+  }
 }
 
 const typedHandler: RouteHandler<ReplyPayload> = async (request, reply) => {

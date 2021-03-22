@@ -26,28 +26,28 @@ import { FastifyRequest, RequestGenericInterface } from './request'
  * Standard Fastify logging function
  */
 export interface FastifyLogFn {
-  (msg: string, ...args: unknown[]): void;
-  (obj: unknown, msg?: string, ...args: unknown[]): void;
+  (msg: string, ...args: unknown[]): void
+  (obj: unknown, msg?: string, ...args: unknown[]): void
 }
 
 export type LogLevel = 'info' | 'error' | 'debug' | 'fatal' | 'warn' | 'trace'
 
-export type SerializerFn = (value: unknown) => unknown;
+export type SerializerFn = (value: unknown) => unknown
 
 export interface Bindings {
-  level?: LogLevel | string;
-  serializers?: { [key: string]: SerializerFn };
-  [key: string]: unknown;
+  level?: LogLevel | string
+  serializers?: { [key: string]: SerializerFn }
+  [key: string]: unknown
 }
 
 export interface FastifyLoggerInstance {
-  info: FastifyLogFn;
-  warn: FastifyLogFn;
-  error: FastifyLogFn;
-  fatal: FastifyLogFn;
-  trace: FastifyLogFn;
-  debug: FastifyLogFn;
-  child(bindings: Bindings): FastifyLoggerInstance;
+  info: FastifyLogFn
+  warn: FastifyLogFn
+  error: FastifyLogFn
+  fatal: FastifyLogFn
+  trace: FastifyLogFn
+  debug: FastifyLogFn
+  child: (bindings: Bindings) => FastifyLoggerInstance
 }
 
 // This interface is accurate for pino 6.3 and was copied from the following permalink:
@@ -59,52 +59,52 @@ export interface PrettyOptions {
    * The default format is yyyy-mm-dd HH:MM:ss.l o in UTC.
    * For a list of available pattern letters see the {@link https://www.npmjs.com/package/dateformat|dateformat documentation}.
    */
-  translateTime?: boolean | string;
+  translateTime?: boolean | string
   /**
    * If set to true, it will print the name of the log level as the first field in the log line. Default: `false`.
    */
-  levelFirst?: boolean;
+  levelFirst?: boolean
   /**
    * The key in the JSON object to use as the highlighted message. Default: "msg".
    */
-  messageKey?: string;
+  messageKey?: string
   /**
    * The key in the JSON object to use for timestamp display. Default: "time".
    */
-  timestampKey?: string;
+  timestampKey?: string
   /**
    * Format output of message, e.g. {level} - {pid} will output message: INFO - 1123 Default: `false`.
    */
-  messageFormat?: false | string;
+  messageFormat?: false | string
   /**
    * If set to true, will add color information to the formatted output message. Default: `false`.
    */
-  colorize?: boolean;
+  colorize?: boolean
   /**
    * Appends carriage return and line feed, instead of just a line feed, to the formatted log line.
    */
-  crlf?: boolean;
+  crlf?: boolean
   /**
    * Define the log keys that are associated with error like objects. Default: ["err", "error"]
    */
-  errorLikeObjectKeys?: string[];
+  errorLikeObjectKeys?: string[]
   /**
    *  When formatting an error object, display this list of properties.
    *  The list should be a comma separated list of properties. Default: ''
    */
-  errorProps?: string;
+  errorProps?: string
   /**
    * Specify a search pattern according to {@link http://jmespath.org|jmespath}
    */
-  search?: string;
+  search?: string
   /**
    * Ignore one or several keys. Example: "time,hostname"
    */
-  ignore?: string;
+  ignore?: string
   /**
    * Suppress warning on first synchronous flushing.
    */
-  suppressFlushSyncWarning?: boolean;
+  suppressFlushSyncWarning?: boolean
 }
 
 /**
@@ -119,26 +119,26 @@ export interface FastifyLoggerOptions<
 > {
   serializers?: {
     req?: (req: RawRequest) => {
-      method?: string;
-      url?: string;
-      version?: string;
-      hostname?: string;
-      remoteAddress?: string;
-      remotePort?: number;
-      [key: string]: unknown;
-    };
+      method?: string
+      url?: string
+      version?: string
+      hostname?: string
+      remoteAddress?: string
+      remotePort?: number
+      [key: string]: unknown
+    }
     err?: (err: FastifyError) => {
-      type: string;
-      message: string;
-      stack: string;
-      [key: string]: unknown;
-    };
+      type: string
+      message: string
+      stack: string
+      [key: string]: unknown
+    }
     res?: (res: RawReply) => {
-      statusCode: string | number;
-      [key: string]: unknown;
-    };
-  };
-  level?: string;
-  genReqId?: <RequestGeneric extends RequestGenericInterface = RequestGenericInterface>(req: FastifyRequest<RequestGeneric, RawServer, RawRequest>) => string;
-  prettyPrint?: boolean | PrettyOptions;
+      statusCode: string | number
+      [key: string]: unknown
+    }
+  }
+  level?: string
+  genReqId?: <RequestGeneric extends RequestGenericInterface = RequestGenericInterface>(req: FastifyRequest<RequestGeneric, RawServer, RawRequest>) => string
+  prettyPrint?: boolean | PrettyOptions
 }

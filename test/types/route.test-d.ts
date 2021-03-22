@@ -1,3 +1,5 @@
+/* eslint-disable handle-callback-err */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import fastify, { FastifyInstance, FastifyRequest, FastifyReply, RouteHandlerMethod } from '../../fastify'
 import { expectType, expectError, expectAssignable } from 'tsd'
 import { HTTPMethods } from '../../types/utils'
@@ -37,7 +39,12 @@ type LowerCaseHTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete'
   expectType<FastifyInstance>(fastify()[lowerCaseMethod]('/', {}, routeHandler))
   expectType<FastifyInstance>(fastify()[lowerCaseMethod]('/', { handler: routeHandler }))
 
-  expectType<FastifyInstance>(fastify()[lowerCaseMethod]('/', { handler: routeHandler, errorHandler: (error, request, reply) => reply.send('error') }))
+  expectType<FastifyInstance>(fastify()[lowerCaseMethod]('/', {
+    handler: routeHandler,
+    errorHandler: (error, request, reply) => {
+      reply.send('error')
+    }
+  }))
 
   interface BodyInterface { prop: string }
   interface QuerystringInterface { prop: number }
@@ -45,15 +52,15 @@ type LowerCaseHTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'head' | 'delete'
   interface HeadersInterface { prop: string }
 
   interface ContextConfigType {
-    foo: string;
-    bar: number;
+    foo: string
+    bar: number
   }
 
   interface RouteGeneric {
-    Body: BodyInterface;
-    Querystring: QuerystringInterface;
-    Params: ParamsInterface;
-    Headers: HeadersInterface;
+    Body: BodyInterface
+    Querystring: QuerystringInterface
+    Params: ParamsInterface
+    Headers: HeadersInterface
   }
 
   fastify()[lowerCaseMethod]<RouteGeneric, ContextConfigType>('/', { config: { foo: 'bar', bar: 100 } }, (req, res) => {

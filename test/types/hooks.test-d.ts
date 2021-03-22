@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import fastify, { RouteOptions, FastifyReply, FastifyRequest } from '../../fastify'
 import { expectType, expectError, expectAssignable } from 'tsd'
 import { FastifyInstance } from '../../types/instance'
@@ -8,9 +9,9 @@ const server = fastify()
 
 // Test payload generic pass through for preSerialization and onSend
 
-type TestPayloadType = {
-  foo: string;
-  bar: number;
+interface TestPayloadType {
+  foo: string
+  bar: number
 }
 
 // Synchronous Tests
@@ -93,7 +94,7 @@ server.addHook('onError', (request, reply, error, done) => {
 })
 
 server.addHook('onRoute', (opts) => {
-  expectType<RouteOptions & { routePath: string; path: string; prefix: string}>(opts)
+  expectType<RouteOptions & { routePath: string, path: string, prefix: string}>(opts)
 })
 
 server.addHook('onRegister', (instance, done) => {
