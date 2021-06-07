@@ -90,19 +90,21 @@ function fastify (options) {
 
   validateBodyLimitOption(options.bodyLimit)
 
+  options = normalizeOptions(options)
+
   const requestIdHeader = options.requestIdHeader || defaultInitOptions.requestIdHeader
   const querystringParser = options.querystringParser || querystring.parse
   const genReqId = options.genReqId || reqIdGenFactory()
   const requestIdLogLabel = options.requestIdLogLabel || 'reqId'
   const bodyLimit = options.bodyLimit || defaultInitOptions.bodyLimit
   const disableRequestLogging = options.disableRequestLogging || false
-  const exposeHeadRoutes = options.exposeHeadRoutes != null ? options.exposeHeadRoutes : false
+  const exposeHeadRoutes = options.routing.exposeHeadRoutes != null ? options.routing.exposeHeadRoutes : false
 
   const ajvOptions = Object.assign({
     customOptions: {},
     plugins: []
   }, options.ajv)
-  const frameworkErrors = options.frameworkErrors
+  const frameworkErrors = options.errorManagement.frameworkErrors
 
   // Ajv options
   if (!ajvOptions.customOptions || Object.prototype.toString.call(ajvOptions.customOptions) !== '[object Object]') {
@@ -116,8 +118,8 @@ function fastify (options) {
   const { logger, hasLogger } = createLogger(options)
 
   // Update the options with the fixed values
-  options.connectionTimeout = options.connectionTimeout || defaultInitOptions.connectionTimeout
-  options.keepAliveTimeout = options.keepAliveTimeout || defaultInitOptions.keepAliveTimeout
+  options.timeouts.connectionTimeout = options.timeouts.connectionTimeout || defaultInitOptions.connectionTimeout
+  options.timeouts.keepAliveTimeout = options.timeouts.keepAliveTimeout || defaultInitOptions.keepAliveTimeout
   options.logger = logger
   options.genReqId = genReqId
   options.requestIdHeader = requestIdHeader
@@ -125,12 +127,25 @@ function fastify (options) {
   options.requestIdLogLabel = requestIdLogLabel
   options.disableRequestLogging = disableRequestLogging
   options.ajv = ajvOptions
-  options.clientErrorHandler = options.clientErrorHandler || defaultClientErrorHandler
-  options.exposeHeadRoutes = exposeHeadRoutes
+  options.errorManagement.clientErrorHandler = options.errorManagement.clientErrorHandler || defaultClientErrorHandler
+  options.routing.exposeHeadRoutes = exposeHeadRoutes
 
-  const initialConfig = getSecuredInitialConfig(options)
+  const {
+    errorManagement,
+    routing,
+    security,
+    timeouts,
+    ...rest
+  } = options
+  const initialConfig = getSecuredInitialConfig({
+    ...errorManagement,
+    ...routing,
+    ...security,
+    ...timeouts,
+    ...rest
+  })
 
-  let constraints = options.constraints
+  let constraints = options.routing.constraints
   if (options.versioning) {
     warning.emit('FSTDEP009')
     constraints = {
@@ -155,9 +170,9 @@ function fastify (options) {
       defaultRoute: defaultRoute,
       onBadUrl: onBadUrl,
       constraints: constraints,
-      ignoreTrailingSlash: options.ignoreTrailingSlash || defaultInitOptions.ignoreTrailingSlash,
+      ignoreTrailingSlash: options.routing.ignoreTrailingSlash || defaultInitOptions.ignoreTrailingSlash,
       maxParamLength: options.maxParamLength || defaultInitOptions.maxParamLength,
-      caseSensitive: options.caseSensitive
+      caseSensitive: options.routing.caseSensitive
     }
   })
 
@@ -168,7 +183,7 @@ function fastify (options) {
   const httpHandler = wrapRouting(router.routing, options)
 
   // we need to set this before calling createServer
-  options.http2SessionTimeout = initialConfig.http2SessionTimeout
+  options.timeouts.http2SessionTimeout = initialConfig.http2SessionTimeout
   const { server, listen } = createServer(options, httpHandler)
 
   const setupResponseListeners = Reply.setupResponseListeners
@@ -195,11 +210,11 @@ function fastify (options) {
     [kReplySerializerDefault]: null,
     [kContentTypeParser]: new ContentTypeParser(
       bodyLimit,
-      (options.onProtoPoisoning || defaultInitOptions.onProtoPoisoning),
-      (options.onConstructorPoisoning || defaultInitOptions.onConstructorPoisoning)
+      (options.security.onProtoPoisoning || defaultInitOptions.onProtoPoisoning),
+      (options.security.onConstructorPoisoning || defaultInitOptions.onConstructorPoisoning)
     ),
     [kReply]: Reply.buildReply(Reply),
-    [kRequest]: Request.buildRequest(Request, options.trustProxy),
+    [kRequest]: Request.buildRequest(Request, options.security.trustProxy),
     [kFourOhFour]: fourOhFour,
     [pluginUtils.registeredPlugins]: [],
     [kPluginNameChain]: [],
@@ -323,9 +338,9 @@ function fastify (options) {
   // will not detect it, and allow the user to override it.
   Object.setPrototypeOf(fastify, { use })
 
-  if (options.schemaErrorFormatter) {
-    validateSchemaErrorFormatter(options.schemaErrorFormatter)
-    fastify[kSchemaErrorFormatter] = options.schemaErrorFormatter.bind(fastify)
+  if (options.errorManagement.schemaErrorFormatter) {
+    validateSchemaErrorFormatter(options.errorManagement.schemaErrorFormatter)
+    fastify[kSchemaErrorFormatter] = options.errorManagement.schemaErrorFormatter.bind(fastify)
   }
 
   // Install and configure Avvio
@@ -337,7 +352,7 @@ function fastify (options) {
   // - close
   const avvio = Avvio(fastify, {
     autostart: false,
-    timeout: Number(options.pluginTimeout) || defaultInitOptions.pluginTimeout,
+    timeout: Number(options.timeouts.pluginTimeout) || defaultInitOptions.pluginTimeout,
     expose: {
       use: 'register'
     }
@@ -377,7 +392,7 @@ function fastify (options) {
   })
 
   // Delay configuring clientError handler so that it can access fastify state.
-  server.on('clientError', options.clientErrorHandler.bind(fastify))
+  server.on('clientError', options.errorManagement.clientErrorHandler.bind(fastify))
 
   return fastify
 
@@ -622,6 +637,50 @@ function fastify (options) {
     this[kErrorHandler] = func.bind(this)
     return this
   }
+}
+
+function normalizeOptions (options) {
+  const deprecatedOptionsMap = new Map([
+    ['clientErrorHandler', 'errorManagement'],
+    ['frameworkErrors', 'errorManagement'],
+    ['return503OnClosing', 'errorManagement'],
+    ['schemaErrorFormatter', 'errorManagement'],
+    ['rewriteUrl', 'routing'],
+    ['constraints', 'routing'],
+    ['exposeHeadRoutes', 'routing'],
+    ['caseSensitive', 'routing'],
+    ['ignoreTrailingSlash', 'routing'],
+    ['onProtoPoisoning', 'security'],
+    ['onConstructorPoisoning', 'security'],
+    ['trustProxy', 'security'],
+    ['connectionTimeout', 'timeouts'],
+    ['keepAliveTimeout', 'timeouts'],
+    ['pluginTimeout', 'timeouts'],
+    ['http2SessionTimeout', 'timeouts']
+  ])
+
+  const normalizedOptions = {}
+
+  for (const key in options) {
+    if (deprecatedOptionsMap.has(key)) {
+      // !TODO: Print deprecation warning
+      const groupKey = deprecatedOptionsMap.get(key)
+
+      normalizedOptions[groupKey] = {
+        ...normalizedOptions[groupKey],
+        [key]: options[key]
+      }
+
+      delete options[key]
+    }
+  }
+
+  return Object.assign({
+    errorManagement: {},
+    routing: {},
+    security: {},
+    timeouts: {}
+  }, normalizedOptions, options)
 }
 
 function validateSchemaErrorFormatter (schemaErrorFormatter) {
