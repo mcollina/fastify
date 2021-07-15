@@ -162,6 +162,7 @@ matters to you.
 
 ## Documentation
 * <a href="./docs/Getting-Started.md"><code><b>Getting Started</b></code></a>
+* <a href="./docs/Guides/Index.md"><code><b>Guides</b></code></a>
 * <a href="./docs/Server.md"><code><b>Server</b></code></a>
 * <a href="./docs/Routes.md"><code><b>Routes</b></code></a>
 * <a href="./docs/Encapsulation.md"><code><b>Encapsulation</b></code></a>
