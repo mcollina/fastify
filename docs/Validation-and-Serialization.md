@@ -599,6 +599,7 @@ fastify.setErrorHandler(function (error, request, reply) {
 ```
 
 If you want custom error response in schema without headaches and quickly, you can take a look at [`ajv-errors`](https://github.com/epoberezkin/ajv-errors). Check out the [example](https://github.com/fastify/example/blob/HEAD/validation-messages/custom-errors-messages.js) usage.
+> Make sure to install version 1.0.1 of `ajv-errors`, because later versions of it are not compatible with AJV v6.
 
 Below is an example showing how to add **custom error messages for each property** of a schema by supplying custom AJV options.
 Inline comments in the schema below describe how to configure it to show a different error message for each case:
@@ -606,7 +607,10 @@ Inline comments in the schema below describe how to configure it to show a diffe
 ```js
 const fastify = Fastify({
   ajv: {
-    customOptions: { jsonPointers: true },
+    customOptions: {
+      jsonPointers: true,
+      allErrors: true
+    },
     plugins: [
       require('ajv-errors')
     ]
