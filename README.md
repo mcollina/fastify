@@ -25,6 +25,25 @@ Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yello
 
 <br />
 
+ - [Requirements](https://github.com/fastify/fastify#requirements)
+ - [Quick start](https://github.com/fastify/fastify#quick-start)
+ - [Install](https://github.com/fastify/fastify#install)
+ - [Example](https://github.com/fastify/fastify#example)
+ - [Fastify v1.x and v2.x](https://github.com/fastify/fastify#fastify-v1x-and-v2x)
+ - [Core features](https://github.com/fastify/fastify#core-features)
+ - [Benchmarks](https://github.com/fastify/fastify#benchmarks)
+ - [Documentation](https://github.com/fastify/fastify#documentation)
+ - [Ecosystem](https://github.com/fastify/fastify#ecosystem)
+ - [Support](https://github.com/fastify/fastify#support)
+ - [Team](https://github.com/fastify/fastify#team)
+ - [Hosted by](https://github.com/fastify/fastify#hosted-by)
+ - [License](https://github.com/fastify/fastify#license)
+
+
+
+
+
+##Description
 An efficient server implies a lower cost of the infrastructure, a better responsiveness under load and happy users.
 How can you efficiently handle the resources of your server, knowing that you are serving the highest number of requests as possible, without sacrificing security validations and handy development?
 
