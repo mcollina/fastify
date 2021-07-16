@@ -1190,3 +1190,33 @@ test('HEAD routes properly auto created for GET routes when prefixTrailingSlash:
   t.equal(trailingSlashReply.statusCode, 200)
   t.equal(noneTrailingReply.statusCode, 200)
 })
+
+test('Will not try to re-createprefixed HEAD route if it already exists and exposeHeadRoutes is true', async (t) => {
+  t.plan(1)
+
+  const fastify = Fastify({ exposeHeadRoutes: true })
+
+  fastify.register((scope, opts, next) => {
+    scope.route({
+      method: 'HEAD',
+      path: '/route',
+      handler: (req, reply) => {
+        reply.header('content-type', 'text/plain')
+        reply.send('custom HEAD response')
+      }
+    })
+    scope.route({
+      method: 'GET',
+      path: '/route',
+      handler: (req, reply) => {
+        reply.send({ ok: true })
+      }
+    })
+
+    next()
+  }, { prefix: '/prefix' })
+
+  await fastify.ready()
+
+  t.ok(true)
+})
