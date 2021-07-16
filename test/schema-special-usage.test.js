@@ -1,6 +1,7 @@
 'use strict'
 
 const { test } = require('tap')
+const Joi = require('@hapi/joi')
 const AJV = require('ajv')
 const S = require('fluent-json-schema')
 const Fastify = require('..')
@@ -746,5 +747,36 @@ test('multiple refs with the same ids', t => {
     t.error(err)
     t.equal(res.statusCode, 200)
     t.same(res.json(), { hello: 'world' })
+  })
+})
+
+test('JOI validation overwrite request headers', t => {
+  t.plan(3)
+  const schemaValidator = ({ schema }) => data => {
+    const validationResult = schema.validate(data)
+    return validationResult
+  }
+
+  const fastify = Fastify()
+  fastify.setValidatorCompiler(schemaValidator)
+
+  fastify.get('/', {
+    schema: {
+      headers: Joi.object({
+        'user-agent': Joi.string().required(),
+        host: Joi.string().required()
+      })
+    }
+  }, (request, reply) => {
+    reply.send(request.headers)
+  })
+
+  fastify.inject('/', (err, res) => {
+    t.error(err)
+    t.equals(res.statusCode, 200)
+    t.deepEquals(res.json(), {
+      'user-agent': 'lightMyRequest',
+      host: 'localhost:80'
+    })
   })
 })
