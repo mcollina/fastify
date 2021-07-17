@@ -14,7 +14,7 @@ const getHandler: RouteHandlerMethod = function (_request, reply) {
   expectType<(statusCode: number) => FastifyReply>(reply.status)
   expectType<number>(reply.statusCode)
   expectType<boolean>(reply.sent)
-  expectType<((payload?: unknown) => FastifyReply)>(reply.send)
+  expectType<((payload?: unknown, isError?: boolean) => FastifyReply)>(reply.send)
   expectType<(key: string, value: any) => FastifyReply>(reply.header)
   expectType<(values: {[key: string]: any}) => FastifyReply>(reply.headers)
   expectType<(key: string) => string | undefined>(reply.getHeader)
@@ -38,7 +38,7 @@ interface ReplyPayload {
 }
 
 const typedHandler: RouteHandler<ReplyPayload> = async (request, reply) => {
-  expectType<((payload?: ReplyPayload['Reply']) => FastifyReply<RawServerDefault, RawRequestDefaultExpression<RawServerDefault>, RawReplyDefaultExpression<RawServerDefault>, ReplyPayload>)>(reply.send)
+  expectType<((payload?: ReplyPayload['Reply'], isError?: boolean) => FastifyReply<RawServerDefault, RawRequestDefaultExpression<RawServerDefault>, RawReplyDefaultExpression<RawServerDefault>, ReplyPayload>)>(reply.send)
 }
 
 const server = fastify()

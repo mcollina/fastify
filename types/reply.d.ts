@@ -27,7 +27,7 @@ export interface FastifyReply<
   status(statusCode: number): FastifyReply<RawServer, RawRequest, RawReply, RouteGeneric, ContextConfig>;
   statusCode: number;
   sent: boolean;
-  send(payload?: RouteGeneric['Reply']): FastifyReply<RawServer, RawRequest, RawReply, RouteGeneric, ContextConfig>;
+  send(payload?: RouteGeneric['Reply'], isError?: boolean): FastifyReply<RawServer, RawRequest, RawReply, RouteGeneric, ContextConfig>;
   header(key: string, value: any): FastifyReply<RawServer, RawRequest, RawReply, RouteGeneric, ContextConfig>;
   headers(values: {[key: string]: any}): FastifyReply<RawServer, RawRequest, RawReply, RouteGeneric, ContextConfig>;
   getHeader(key: string): string | undefined;
