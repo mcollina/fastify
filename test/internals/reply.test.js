@@ -12,7 +12,6 @@ const {
   kReplyErrorHandlerCalled,
   kReplyHeaders,
   kReplySerializer,
-  kReplyIsError,
   kReplySerializerDefault
 } = require('../../lib/symbols')
 const fs = require('fs')
@@ -20,13 +19,12 @@ const path = require('path')
 const warning = require('../../lib/warnings')
 
 test('Once called, Reply should return an object with methods', t => {
-  t.plan(13)
+  t.plan(12)
   const response = { res: 'res' }
   const context = {}
   const request = { context }
   const reply = new Reply(response, request)
   t.equal(typeof reply, 'object')
-  t.equal(typeof reply[kReplyIsError], 'boolean')
   t.equal(typeof reply[kReplyErrorHandlerCalled], 'boolean')
   t.equal(typeof reply.send, 'function')
   t.equal(typeof reply.code, 'function')
